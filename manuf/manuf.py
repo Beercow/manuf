@@ -85,7 +85,8 @@ class MacParser(object):
 
         # Build mask -> result dict
         for line in manuf_file:
-            com = line.split("#", 1)
+            line_clean = re.sub(r"\t{2}", "\t", line)           
+            com = line_clean.split("#", 1)
             arr = com[0].split()
 
             if len(arr) < 1:

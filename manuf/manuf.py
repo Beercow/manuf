@@ -89,6 +89,7 @@ class MacParser(object):
             line_clean = re.sub(r" {2,}", "\t", line_clean)
             com = line_clean.split("#", 1) # split to (1) mac/subnet->shortName->longName & (2) comments
             arr = com[0].split("\t")    # split mac/subnet, hortName & longName by its tab-delimiter (instead of whitespace)
+            arr = [e.strip() for el in arr]
 
             if len(arr) < 1 or arr[0] in ("\n", ""):
                 continue

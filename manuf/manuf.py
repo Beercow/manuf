@@ -85,7 +85,7 @@ class MacParser(object):
 
         # Build mask -> result dict
         for line in manuf_file:
-            line_clean = re.sub(r"\t{2}", "\t", line)
+            line_clean = line.replace("\t\t", "\t")
             line_clean = re.sub(r" {2,}", "\t", line_clean)
             com = line_clean.split("#", 1) # split to (1) mac/subnet->shortName->longName & (2) comments
             arr = com[0].split("\t")    # split mac/subnet, hortName & longName by its tab-delimiter (instead of whitespace)

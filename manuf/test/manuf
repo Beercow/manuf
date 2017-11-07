@@ -32978,11 +32978,12 @@ FC:FC:48	Apple	Apple, Inc.
 FC:FE:77	HitachiR	Hitachi Reftechno, Inc.
 FC:FE:C2	Invensys	Invensys Controls UK Limited
 FC:FF:AA	IeeeRegi	IEEE Registration Authority
+
+00:1B:C5	IeeeRegi	IEEE Registration Authority
 01-80-C2-00-00-30/45	OAM-Multicast-DA-Class-1
 01-80-C2-00-00-38/45	OAM-Multicast-DA-Class-2
 01-80-C2-00-00-40	All-RBridges
 01-80-C2-00-00-1E	Token-Ring-all-DTR-Concentrators
 00:1B:C5:00:00:00/36	Convergi                Converging Systems Inc.
-00:1B:C5	IeeeRegi               # IEEE Registration Authority
 
 

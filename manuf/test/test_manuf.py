@@ -16,7 +16,7 @@ class ManufTestCase(unittest.TestCase):
     def test_getAll_whenMacValid_getVendor(self):
         v = self.manuf.get_all("00:00:00:00:00:00")
         self.assertEqual(v.manuf, "00:00:00")
-        self.assertEqual(v.comment, "Officially Xerox, but 0:0:0:0:0:0 is more common")
+        self.assertEqual(v.manuf_long, "Officially Xerox, but 0:0:0:0:0:0 is more common")
 
     def test_getManuf_getManuf(self):
         m = self.manuf.get_manuf("08:60:6E")
@@ -24,11 +24,11 @@ class ManufTestCase(unittest.TestCase):
         self.assertEqual(m, "AsustekC")
         self.assertEqual(m, v.manuf)
 
-    def test_getComment_getComment(self):
-        c = self.manuf.get_comment("08:60:6E")
+    def test_getManufLong_getManufLong(self):
+        ml = self.manuf.get_manuf_long("08:60:6E")
         v = self.manuf.get_all("08:60:6E")
-        self.assertEqual(c, "ASUSTek COMPUTER INC.")
-        self.assertEqual(c, v.comment)
+        self.assertEqual(ml, "ASUSTek COMPUTER INC.")
+        self.assertEqual(ml, v.manuf_long)
 
     def test_getAll_supportAllMacFormats(self):
         v1 = self.manuf.get_all("08:60:6E")
@@ -36,7 +36,7 @@ class ManufTestCase(unittest.TestCase):
         v3 = self.manuf.get_all("08.60.6E.ab.cd.ef")
         v4 = self.manuf.get_all("08-60-6E")
         self.assertEqual(v1.manuf, "AsustekC")
-        self.assertEqual(v1.comment, "ASUSTek COMPUTER INC.")
+        self.assertEqual(v1.manuf_long, "ASUSTek COMPUTER INC.")
         self.assertEqual(v1, v2)
         self.assertEqual(v1, v3)
         self.assertEqual(v1, v4)
@@ -50,7 +50,7 @@ class ManufTestCase(unittest.TestCase):
         v6 = self.manuf.get_all("00:1B:C5:FF:00:00")
         v7 = self.manuf.get_all("00:1B:C5:01:00:00")
         self.assertEqual(v1.manuf, "IeeeRegi")
-        self.assertEqual(v1.comment, "IEEE Registration Authority")
+        self.assertEqual(v1.manuf_long, "IEEE Registration Authority")
         self.assertEqual(v1, v2)
         self.assertEqual(v1, v3)
         self.assertEqual(v1, v4)
@@ -64,7 +64,7 @@ class ManufTestCase(unittest.TestCase):
         v3 = self.manuf.get_all("00:1B:C5:00:0F:FF")
         v4 = self.manuf.get_all("00:1B:C5:00:10:00")
         self.assertEqual(v1.manuf, "Convergi")
-        self.assertEqual(v1.comment, "Converging Systems Inc.")
+        self.assertEqual(v1.manuf_long, "Converging Systems Inc.")
         self.assertEqual(v1, v2)
         self.assertEqual(v2, v3)
         self.assertNotEqual(v3, v4)

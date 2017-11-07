@@ -37,7 +37,7 @@ except ImportError:
     from io import StringIO
 
 # Vendor tuple
-Vendor = namedtuple('Vendor', ['manuf', 'comment'])
+Vendor = namedtuple('Vendor', ['manuf', 'manuf_long', 'comment'])
 
 class MacParser(object):
     """Class that contains a parser for Wireshark's OUI database.
@@ -103,10 +103,11 @@ class MacParser(object):
                 if mask_spec > mask:
                     mask = mask_spec
 
+            long_name = arr[2] if len(arr) > 2 else ""
             if len(com) > 1:
-                result = Vendor(manuf=arr[1], comment=com[1].strip())
+                result = Vendor(manuf=arr[1], manuf_long=long_name, comment=com[1].strip())
             else:
-                result = Vendor(manuf=arr[1], comment=None)
+                result = Vendor(manuf=arr[1], manuf_long=long_name, comment=None)
 
             self._masks[(mask, mac_int >> mask)] = result
 
@@ -196,7 +197,7 @@ class MacParser(object):
         """
         vendors = self.search(mac)
         if len(vendors) == 0:
-            return Vendor(manuf=None, comment=None)
+            return Vendor(manuf=None, manuf_long=None, comment=None)
         return vendors[0]
 
     def get_manuf(self, mac):
@@ -213,6 +214,21 @@ class MacParser(object):
 
         """
         return self.get_all(mac).manuf
+
+    def get_manuf_long(self, mac):
+        """Returns manufacturer long name from a MAC address.
+
+        Args:
+            mac (str): MAC address in standard format.
+
+        Returns:
+            string: String containing manufacturer, or None if not found.
+
+        Raises:
+            ValueError: If the MAC could not be parsed.
+
+        """
+        return self.get_all(mac).manuf_long
 
     def get_comment(self, mac):
         """Returns comment from a MAC address.

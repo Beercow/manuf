@@ -3,10 +3,10 @@ import os
 import unittest
 
 class ManufTestCase(unittest.TestCase):
-    MANUF_URL = "https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf"
+    MANUF_URL = "https://raw.githubusercontent.com/coolbho3k/manuf/master/manuf/test/manuf"
 
     def setUp(self):
-        self.manuf = manuf.MacParser(manuf_name="test/manuf", update=True)
+        self.manuf = manuf.MacParser(manuf_name="test/manuf")
 
     def test_update_update(self):
         self.manuf.update(manuf_url=self.MANUF_URL, manuf_name="test/manuf_update")

@@ -7,7 +7,7 @@ class ManufTestCase(unittest.TestCase):
 
     def setUp(self):
         self.manuf = manuf.MacParser(manuf_name="test/manuf")
-
+    #
     def test_update_update(self):
         self.manuf.update(manuf_url=self.MANUF_URL, manuf_name="test/manuf_update")
         assert os.path.exists("test/manuf_update")
@@ -29,6 +29,11 @@ class ManufTestCase(unittest.TestCase):
         v = self.manuf.get_all("08:60:6E")
         self.assertEqual(ml, "ASUSTek COMPUTER INC.")
         self.assertEqual(ml, v.manuf_long)
+
+    def test_getManufLong_getComment(self):
+        v = self.manuf.get_all("00:20:35")
+        self.assertEqual(v.manuf_long, "IBM (International Business Machines)")
+        self.assertEqual(v.comment, "mainframes, Etherjet printers")
 
     def test_getAll_supportAllMacFormats(self):
         v1 = self.manuf.get_all("08:60:6E")
@@ -89,4 +94,5 @@ class ManufTestCase(unittest.TestCase):
         v7 = self.manuf.get_all("01:80:C2:00:00:1E")
         self.assertEqual(v7.manuf, "Token-Ring-all-DTR-Concentrators")
         self.assertEqual(v7.comment, None)
+
 

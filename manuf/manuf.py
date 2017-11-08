@@ -85,6 +85,9 @@ class MacParser(object):
 
         # Build mask -> result dict
         for line in manuf_file:
+            first_char = line.strip("")[0] if len(line) > 0 else None
+            if "#" == first_char:
+                continue
             line_clean = line.replace("\t\t", "\t")
             line_clean = re.sub(r" {2,}", "\t", line_clean)
             com = line_clean.split("#", 1) # split to (1) mac/subnet->shortName->longName & (2) comments

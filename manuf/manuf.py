@@ -85,35 +85,32 @@ class MacParser(object):
 
         # Build mask -> result dict
         for line in manuf_file:
-            first_char = line.strip("")[0] if len(line) > 0 else None
-            if "#" == first_char:
-                continue
-            line_clean = line.replace("\t\t", "\t")
-            com = line_clean.split("#", 1) # split to (1) mac/subnet->shortName->longName & (2) comments
-            arr = com[0].split("\t")    # split mac/subnet, hortName & longName by its tab-delimiter (instead of whitespace)
-            arr = [e.strip() for e in arr]
+            try:
+                line = line.strip()
+                if not line or line[0] == "#":
+                    continue
+                line = line.replace("\t\t", "\t")
+                fields = [field.strip() for field in line.split("\t")]
 
-            if len(arr) < 1 or arr[0] in ("\n", ""):
-                continue
+                parts = fields[0].split("/")
+                mac_str = self._strip_mac(parts[0])
+                mac_int = self._get_mac_int(mac_str)
+                mask = self._bits_left(mac_str)
 
-            parts = arr[0].split("/")
-            mac_str = self._strip_mac(parts[0])
-            mac_int = self._get_mac_int(mac_str)
-            mask = self._bits_left(mac_str)
+                # Specification includes mask
+                if len(parts) > 1:
+                    mask_spec = 48 - int(parts[1])
+                    if mask_spec > mask:
+                        mask = mask_spec
 
-            # Specification includes mask
-            if len(parts) > 1:
-                mask_spec = 48 - int(parts[1])
-                if mask_spec > mask:
-                    mask = mask_spec
+                comment = fields[3].strip("#").strip() if len(fields) > 3 else None
+                long_name = fields[2] if len(fields) > 2 else None
 
-            long_name = arr[2] if len(arr) > 2 else ""
-            if len(com) > 1:
-                result = Vendor(manuf=arr[1], manuf_long=long_name, comment=com[1].strip())
-            else:
-                result = Vendor(manuf=arr[1], manuf_long=long_name, comment=None)
+                self._masks[(mask, mac_int >> mask)] = Vendor(manuf=fields[1], manuf_long=long_name, comment=comment)
+            except:
+                print( "Couldn't parse line", line)
+                raise
 
-            self._masks[(mask, mac_int >> mask)] = result
 
         manuf_file.close()
 
